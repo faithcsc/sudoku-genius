@@ -1,0 +1,205 @@
+/* MAIN BODY */
+
+html {
+	font-size: 8px;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	background-color: #3BC1AC;
+  display: flex;
+  height: calc(100vh - 70px);
+  min-height: 100%;
+	align-items: center;
+	background-image: radial-gradient(circle at 100% 150%, #3BC1AC 24%, #42D2BB 25%, #42D2BB 28%, #3BC1AC 29%, #3BC1AC 36%, #42D2BB 36%, #42D2BB 40%, transparent 40%, transparent), radial-gradient(circle at 0 150%, #3BC1AC 24%, #42D2BB 25%, #42D2BB 28%, #3BC1AC 29%, #3BC1AC 36%, #42D2BB 36%, #42D2BB 40%, transparent 40%, transparent), radial-gradient(circle at 50% 100%, #42D2BB 10%, #3BC1AC 11%, #3BC1AC 23%, #42D2BB 24%, #42D2BB 30%, #3BC1AC 31%, #3BC1AC 43%, #42D2BB 44%, #42D2BB 50%, #3BC1AC 51%, #3BC1AC 63%, #42D2BB 64%, #42D2BB 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, #42D2BB 5%, #3BC1AC 6%, #3BC1AC 15%, #42D2BB 16%, #42D2BB 20%, #3BC1AC 21%, #3BC1AC 30%, #42D2BB 31%, #42D2BB 35%, #3BC1AC 36%, #3BC1AC 45%, #42D2BB 46%, #42D2BB 49%, transparent 50%, transparent), radial-gradient(circle at 0 50%, #42D2BB 5%, #3BC1AC 6%, #3BC1AC 15%, #42D2BB 16%, #42D2BB 20%, #3BC1AC 21%, #3BC1AC 30%, #42D2BB 31%, #42D2BB 35%, #3BC1AC 36%, #3BC1AC 45%, #42D2BB 46%, #42D2BB 49%, transparent 50%, transparent);
+	background-size: 100px 50px;
+}
+
+.sudokusolver {
+  height: auto;
+  min-height: auto;
+	padding: 2rem;
+	width: 50rem;
+	margin: 0 auto;
+	border-radius: 1rem;
+	position: absolute;
+	top: 10;
+  left: 50%;
+  margin-left: -27rem;
+  margin-bottom: 10rem;
+	background: white;
+	z-index: 1;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sudokusolver button {
+  border-radius: 1rem;
+	display: block;
+	margin: 10px 0;
+	padding: 10px;
+	outline: 0;
+	border: 0;
+	width: 49%;
+	float: left;
+	font-family: 'Pacifico', cursive;
+	margin-bottom: 0;
+	font-size: 2.5rem;
+	background: #ffc600;
+	border-bottom: 5px solid #F3C010;
+	cursor: pointer;
+	position: relative;
+}
+
+.sudokusolver button:nth-of-type(1) {
+	margin-right: 2%;
+}
+
+/* TABLES & CELLS */
+
+table {
+	width: auto;
+  margin: auto;
+  padding: 0px;
+	border-collapse: collapse;
+	border: 1px solid #3a3a3a;
+	text-align: center;
+}
+
+table.tableNoBorder {
+	text-align: center;
+	border: none;
+	width: 100%;
+  padding: 0px;
+}
+
+table.tableNoBorder td {
+	margin: auto;
+	text-align: center;
+	border: none;
+	width: 50%;
+  padding: 0px;
+}
+
+table.tableNoBorder tr {
+	margin: auto;
+	text-align: center;
+	border: none;
+  padding: 0px;
+}
+
+table.SudokuGridDigits {
+	font-size: 2.1rem;
+	margin: auto;
+}
+
+table.SudokuGridDigits td {
+	margin: auto;
+	border: 1px solid #3a3a3a;
+	height: 2.5rem;
+	width: 2.5rem;
+	font-family: "Courier New", Courier, monospace;
+}
+
+table.SudokuGridDigits tr {
+	margin: auto;
+  border: 1px solid #3a3a3a;
+  width: 50%;
+}
+
+.cell {
+	border: none;
+  padding: none;
+	height: 2.4rem;
+  width: 2.4rem;
+}
+
+/* TEXT */
+
+h1 {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+	width: 54rem;
+	margin: -2rem 0 0 -2rem;
+	padding: 0rem;
+	background: #ffc600;
+	text-align: center;
+	font-size: 4rem;
+	font-weight: 100;
+	font-family: 'Pacifico', cursive;
+	text-shadow: 3px 3px 0 #F3C010;
+}
+
+.codeText{
+	background: #f4f4f4;
+	text-align: left;
+  border: 1px solid #ddd;
+  border-left: 3px solid #f36d33;
+  color: #666;
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 2rem;
+  line-height: 1.1;
+  margin-bottom: 1.1em;
+  max-width: 100%;
+  overflow: auto;
+  padding: 0.5em 0.5em;
+  display: block;
+  word-wrap: break-word;
+}
+
+.tableHeader {
+	font-family: 'Lato';
+	font-size: 1.8rem;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding: 0rem;
+	padding-top: 1.5rem;
+	padding-bottom: 1rem;
+}
+
+.linkText {
+	font-family: 'Lato';
+	font-size: 1.5rem;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding: 0.5rem;
+}
+
+.footerText {
+	font-family: 'Lato';
+	font-size: 1.5rem;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding: 0.5rem;
+}
+
+a:hover, a:visited, a:link, a:active {
+  color: darkslategrey;
+  text-decoration: none;
+  font-style: bold;
+}
+
+#resultString {
+	font-family: 'Lato';
+	font-size: 2.5rem;
+	text-align: center;
+  width: 100%;
+	display: block;
+	padding: 0.5rem;
+}
+
+.digitPuzzle{
+	color: black;
+	font-weight: bold;
+}
+
+.digitSolution{
+	color: red;
+	font-weight: bold;
+}

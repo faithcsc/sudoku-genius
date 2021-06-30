@@ -1,0 +1,33 @@
+{
+  "name": "sudoku-genius",
+  "version": "1.0.0",
+  "description": "Automatically solve sudoku puzzles with your phone.",
+  "private": true,
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "npx webpack --env production --config ./webpack.config.js --progress",
+    "heroku-postbuild": "npx webpack --env production --config ./webpack.config.js --progress",
+    "start": "npx serve dist/"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^9.0.0",
+    "css-loader": "^5.2.6",
+    "eslint": "^7.27.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^27.0.4",
+    "serve": "^12.0.0",
+    "webpack": "^5.39.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "core-js": "^3.14.0"
+  }
+}

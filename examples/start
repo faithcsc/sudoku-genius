@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo modprobe v4l2loopback devices=1 max_buffers=2 exclusive_caps=1 card_label="VirtualCam"
+pkill -9 ffmpeg
+while true; do ffmpeg -re -i s1.mp4 -map 0:v -f v4l2 /dev/video10; done

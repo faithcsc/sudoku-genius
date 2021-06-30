@@ -1,0 +1,265 @@
+<html>
+<title>Sudoku Solver</title>
+
+<body>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Sudoku Solver</title>
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/style.css">
+  </head>
+
+  <div class="sudokusolver">
+    <h1>Sudoku Solver 5000</h1>
+    <button id="toggle">⏸️ Pause solver</button>
+    <button id="reset">🔄 Reset solver</button>
+    <div><span id="resultString">Loading...</span></div>
+
+    <video autoplay playsinline muted id="webcam" width="474px" height="474px"></video>
+    <table class="tableNoBorder">
+      <tr>
+        <td><span class="tableHeader">What the neural network saw</span></td>
+        <td><span class="tableHeader">Solution</span></td>
+      </tr>
+      <tr>
+        <td>
+          <table class="SudokuGridDigits">
+            <tr>
+              <td><canvas id="00" class="cell"></canvas></td>
+              <td><canvas id="01" class="cell"></canvas></td>
+              <td><canvas id="02" class="cell"></canvas></td>
+              <td><canvas id="03" class="cell"></canvas></td>
+              <td><canvas id="04" class="cell"></canvas></td>
+              <td><canvas id="05" class="cell"></canvas></td>
+              <td><canvas id="06" class="cell"></canvas></td>
+              <td><canvas id="07" class="cell"></canvas></td>
+              <td><canvas id="08" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="10" class="cell"></canvas></td>
+              <td><canvas id="11" class="cell"></canvas></td>
+              <td><canvas id="12" class="cell"></canvas></td>
+              <td><canvas id="13" class="cell"></canvas></td>
+              <td><canvas id="14" class="cell"></canvas></td>
+              <td><canvas id="15" class="cell"></canvas></td>
+              <td><canvas id="16" class="cell"></canvas></td>
+              <td><canvas id="17" class="cell"></canvas></td>
+              <td><canvas id="18" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="20" class="cell"></canvas></td>
+              <td><canvas id="21" class="cell"></canvas></td>
+              <td><canvas id="22" class="cell"></canvas></td>
+              <td><canvas id="23" class="cell"></canvas></td>
+              <td><canvas id="24" class="cell"></canvas></td>
+              <td><canvas id="25" class="cell"></canvas></td>
+              <td><canvas id="26" class="cell"></canvas></td>
+              <td><canvas id="27" class="cell"></canvas></td>
+              <td><canvas id="28" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="30" class="cell"></canvas></td>
+              <td><canvas id="31" class="cell"></canvas></td>
+              <td><canvas id="32" class="cell"></canvas></td>
+              <td><canvas id="33" class="cell"></canvas></td>
+              <td><canvas id="34" class="cell"></canvas></td>
+              <td><canvas id="35" class="cell"></canvas></td>
+              <td><canvas id="36" class="cell"></canvas></td>
+              <td><canvas id="37" class="cell"></canvas></td>
+              <td><canvas id="38" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="40" class="cell"></canvas></td>
+              <td><canvas id="41" class="cell"></canvas></td>
+              <td><canvas id="42" class="cell"></canvas></td>
+              <td><canvas id="43" class="cell"></canvas></td>
+              <td><canvas id="44" class="cell"></canvas></td>
+              <td><canvas id="45" class="cell"></canvas></td>
+              <td><canvas id="46" class="cell"></canvas></td>
+              <td><canvas id="47" class="cell"></canvas></td>
+              <td><canvas id="48" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="50" class="cell"></canvas></td>
+              <td><canvas id="51" class="cell"></canvas></td>
+              <td><canvas id="52" class="cell"></canvas></td>
+              <td><canvas id="53" class="cell"></canvas></td>
+              <td><canvas id="54" class="cell"></canvas></td>
+              <td><canvas id="55" class="cell"></canvas></td>
+              <td><canvas id="56" class="cell"></canvas></td>
+              <td><canvas id="57" class="cell"></canvas></td>
+              <td><canvas id="58" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="60" class="cell"></canvas></td>
+              <td><canvas id="61" class="cell"></canvas></td>
+              <td><canvas id="62" class="cell"></canvas></td>
+              <td><canvas id="63" class="cell"></canvas></td>
+              <td><canvas id="64" class="cell"></canvas></td>
+              <td><canvas id="65" class="cell"></canvas></td>
+              <td><canvas id="66" class="cell"></canvas></td>
+              <td><canvas id="67" class="cell"></canvas></td>
+              <td><canvas id="68" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="70" class="cell"></canvas></td>
+              <td><canvas id="71" class="cell"></canvas></td>
+              <td><canvas id="72" class="cell"></canvas></td>
+              <td><canvas id="73" class="cell"></canvas></td>
+              <td><canvas id="74" class="cell"></canvas></td>
+              <td><canvas id="75" class="cell"></canvas></td>
+              <td><canvas id="76" class="cell"></canvas></td>
+              <td><canvas id="77" class="cell"></canvas></td>
+              <td><canvas id="78" class="cell"></canvas></td>
+            </tr>
+            <tr>
+              <td><canvas id="80" class="cell"></canvas></td>
+              <td><canvas id="81" class="cell"></canvas></td>
+              <td><canvas id="82" class="cell"></canvas></td>
+              <td><canvas id="83" class="cell"></canvas></td>
+              <td><canvas id="84" class="cell"></canvas></td>
+              <td><canvas id="85" class="cell"></canvas></td>
+              <td><canvas id="86" class="cell"></canvas></td>
+              <td><canvas id="87" class="cell"></canvas></td>
+              <td><canvas id="88" class="cell"></canvas></td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table id="SudokuGridSolved" class="SudokuGridDigits">
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <span class="footerText">The tool works locally in your browser, no data is uploaded.</span>
+    <br>
+    <span class="footerText" id="debugTimings"></span>
+    <span class="footerText">Faith Chia © 2021</span>
+
+  </div>
+  <script>
+    // Redirect to https
+    if (
+      location.protocol !== 'https:' &&
+      location.hostname.indexOf('faithchia.me') !== -1
+    ) {
+      location.replace(
+        `https:${location.href.substring(location.protocol.length)}`,
+      );
+    }
+    document.querySelector("#debugTimings").innerText = Date.now();
+    document.querySelector("#debugTimings").style.display = "none";
+    document.getElementById("toggle").style.display = "none";
+    document.getElementById("reset").style.display = "none";
+    document.getElementById("webcam").style.display = "none";
+    document.querySelectorAll("table").forEach((table) => table.style.display = "none")
+  </script>
+  <script src="static/tfjs.js"></script>
+  <script src="static/opencv.js"></script>
+  <script type="module" src="main.js"></script>
+</body>
+
+</html>
