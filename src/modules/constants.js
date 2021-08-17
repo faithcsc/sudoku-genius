@@ -35,7 +35,7 @@ exports.MODEL_URL = "../model/model.json";
 
 exports.isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 exports.isiOSChrome = /crios/i.test(navigator.userAgent);
-exports.isChrome = /chrome/i.test(navigator.userAgent) || isiOSChrome;
+exports.isChrome = /chrome/i.test(navigator.userAgent) || exports.isiOSChrome;
 exports.isAndroid = /Android/i.test(navigator.userAgent);
 exports.isMobile = exports.isAndroid || exports.isiOS || exports.isiOSChrome;
 exports.height = window.innerHeight;
