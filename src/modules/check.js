@@ -8,7 +8,8 @@ const {
   width,
   mainBodyWidthInREM,
   baseFontSizeElement,
-} = require('./constants');
+} = require("./constants");
+const UI = require("./ui");
 
 const getErrorMessage = () => {
   const userInstruction = getUserInstruction();
@@ -18,9 +19,9 @@ const getErrorMessage = () => {
 
 const getUserInstruction = () => {
   if (isiOSChrome) {
-    return 'Open this page in Safari.<br>';
+    return "Open this page in Safari.<br>";
   }
-  return 'Refresh page and allow camera access.<br>';
+  return "Refresh page and allow camera access.<br>";
 };
 
 const getDebugString = (error) => `UserAgent: ${navigator.userAgent}<br>\
@@ -32,14 +33,16 @@ isMobile: ${isMobile}<br>\
 height: ${height}<br>\
 width: ${width}<br>`;
 
+UI.addResultString(`${getDebugString("")}`);
+
 const checkHTTPS = () => {
   // Make sure webpage is https:// to allow webcam access
   if (
-    location.protocol !== 'https:' &&
-    location.hostname.indexOf('faithchia.me') !== -1
+    location.protocol !== "https:" &&
+    location.hostname.indexOf("faithchia.me") !== -1
   ) {
     location.replace(
-        `https:${location.href.substring(location.protocol.length)}`,
+      `https:${location.href.substring(location.protocol.length)}`
     );
   }
 };
@@ -51,4 +54,4 @@ const changeLayoutIfMobile = () => {
   }
 };
 
-module.exports = {getErrorMessage, checkHTTPS, changeLayoutIfMobile};
+module.exports = { getErrorMessage, checkHTTPS, changeLayoutIfMobile };
