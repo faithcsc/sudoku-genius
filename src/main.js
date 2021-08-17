@@ -56,6 +56,7 @@ async function main() {
   let puzzleOriginal;
   let recentBoard;
   let commonBoard;
+  let webcam;
 
   console.dir(check);
   UI.addResultString("Load page start");
