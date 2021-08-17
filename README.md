@@ -1,5 +1,7 @@
 # Sudoku Genius
 
+[![Build Status](https://app.travis-ci.com/faithcsc/sudoku-genius.svg?branch=main)](https://app.travis-ci.com/faithcsc/sudoku-genius)
+
 Automatically solves sudoku puzzles using your phone's browser and camera.
 
 Try it out: https://sudoku-genius.herokuapp.com/
@@ -13,12 +15,12 @@ Made with [OpenCV.js](https://docs.opencv.org/master/d5/d10/tutorial_js_root.htm
 NOTE: Does not work with Chrome/Firefox on iOS. iOS users, use Safari instead.
 
 - Accept camera permissions.
-- Point your camera directly at the puzzle. 
-- For best results, make sure the puzzle is  
-    - Straight on (not at an angle)
-    - Printed  
-    - Has even lighting / not many shadows  
-- Once the solution is found, the solver will automatically stop. 
+- Point your camera directly at the puzzle.
+- For best results, make sure the puzzle is
+  - Straight on (not at an angle)
+  - Printed
+  - Has even lighting / not many shadows
+- Once the solution is found, the solver will automatically stop.
 - The original puzzle digits are black and the solution digits are red.
 - If the solution cannot be found, resetting the solver usually helps.
 
@@ -36,7 +38,7 @@ NOTE: Does not work with Chrome/Firefox on iOS. iOS users, use Safari instead.
 
 ## Issues
 
-If there are any problems, please first try with another OS or browser. 
+If there are any problems, please first try with another OS or browser.
 
 If the problem persists, open an issue with the following information:
 
@@ -48,16 +50,13 @@ If the problem persists, open an issue with the following information:
 
 ## Contributing
 
-
-
-
 ## Next steps
 
 - [ ] Write tests for image-based functions
 
-- [x] ~~Write tests for non-image-based functions~~  
+- [x] ~~Write tests for non-image-based functions~~
 
-- [x] ~~Reduce size of OpenCV.js using a custom build -- currently it is 10mb+~~  
+- [x] ~~Reduce size of OpenCV.js using a custom build -- currently it is 10mb+~~
 
 ## Credit / Attributions
 

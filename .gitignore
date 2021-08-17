@@ -3,6 +3,7 @@
 
 # Certs
 deploy_rsa
+dist/
 
 ### Node ###
 node_modules/
