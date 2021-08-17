@@ -1,19 +1,20 @@
 /* jshint esversion: 8 */
 const {
+  webcamElement,
+  webcamConfig,
   resetButton,
   debugTimings,
   developmentMode,
   RESET_FRAMES,
   DEFAULT_COUNTER_VALUE,
-} = require('./modules/constants');
-const profiling = require('./modules/profiling');
-const {loadWebcam} = require('./modules/webcam');
-const imageprocessing = require('./modules/imageprocessing');
-const model = require('./modules/model');
-const board = require('./modules/board');
-const {solve, isValidPuzzle} = require('./modules/solver');
-const UI = require('./modules/ui');
-const check = require('./modules/check');
+} = require("./modules/constants");
+const profiling = require("./modules/profiling");
+const imageprocessing = require("./modules/imageprocessing");
+const model = require("./modules/model");
+const board = require("./modules/board");
+const { solve, isValidPuzzle } = require("./modules/solver");
+const UI = require("./modules/ui");
+const check = require("./modules/check");
 
 // for webpack to copy to dist/
 // const mainCSS = require('./static/style.css');
@@ -26,7 +27,7 @@ const check = require('./modules/check');
  * Resets the solver.
  */
 export const reset = () => {
-  UI.putResultString('Resetting...');
+  UI.putResultString("Resetting...");
   if (UI.getIsSolved()) {
     profiling.solvePuzzleStart();
     totalCounter = DEFAULT_COUNTER_VALUE;
@@ -57,31 +58,45 @@ async function main() {
   let commonBoard;
 
   console.dir(check);
+  UI.addResultString("Load page start");
   profiling.loadPageStart();
+  UI.addResultString("Check HTTPS");
   check.checkHTTPS();
+  UI.addResultString("Change layout if mobile");
   check.changeLayoutIfMobile();
 
   // Webcam
-  webcam = await loadWebcam();
-  UI.firstLoadShow();
-  // try {
-  //   webcam = await loadWebcam();
-  //   UI.firstLoadShow();
-  // } catch (error) {
-  //   let errorMessage;
-  //   errorMessage = check.getErrorMessage();
-  //   errorMessage += `<br>Error: ${error}</span>`;
-  //   UI.putResultString(errorMessage);
-  //   return;
-  // }
+  // webcam = await loadWebcam();
+  // UI.firstLoadShow();
+  try {
+    UI.addResultString("Checking webcam");
 
+    webcam = await tf.data.webcam(webcamElement, webcamConfig);
+
+    UI.addResultString("firstLoadShow");
+    UI.firstLoadShow();
+  } catch (error) {
+    let errorMessage;
+    errorMessage = check.getErrorMessage();
+    errorMessage += `<br>Error: ${error}</span>`;
+    UI.putResultString(errorMessage);
+    return;
+  }
+
+  UI.addResultString("Loading model");
   await model.load();
+
+  UI.addResultString("Testing with zeros");
   await model.testWithZeros();
 
+  UI.addResultString("Reset");
   reset();
+  UI.addResultString("Hide or display");
   UI.hideOrDisplay();
 
+  UI.addResultString("loadPageEnd");
   profiling.loadPageEnd();
+  UI.addResultString("solvePuzzleStart");
   profiling.solvePuzzleStart();
 
   while (true) {
@@ -112,7 +127,8 @@ async function main() {
             if (developmentMode) {
               debugTimings.innerHTML += ` Frames: ${totalCounter}`;
               debugTimings.innerHTML += ` Per: ${(
-                timeToSolvePuzzle / totalCounter).toFixed(3)} s`;
+                timeToSolvePuzzle / totalCounter
+              ).toFixed(3)} s`;
             }
             // reset(); // TODO delete this
           }
@@ -128,7 +144,7 @@ async function main() {
       // Stop from being stuck
       if (!UI.getIsSolved() && counter >= RESET_FRAMES) {
         console.log(
-            `No solution found in ${RESET_FRAMES} frames - resetting state`,
+          `No solution found in ${RESET_FRAMES} frames - resetting state`
         );
         reset();
       }
@@ -146,6 +162,6 @@ let recentBoardValid;
 let counter;
 let totalCounter = DEFAULT_COUNTER_VALUE;
 
-resetButton.addEventListener('click', reset);
+resetButton.addEventListener("click", reset);
 
 main();

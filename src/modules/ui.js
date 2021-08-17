@@ -8,8 +8,7 @@ const {
   tables,
   MNIST_LEN,
   BOARD_LEN,
-} = require('./constants');
-
+} = require("./constants");
 
 let runMainLoop = true;
 let isSolved = false;
@@ -22,60 +21,67 @@ const setRunMainLoop = (val) => (runMainLoop = val);
 
 const getIsSolved = () => isSolved;
 
-const setIsSolved = (val) => isSolved = val;
+const setIsSolved = (val) => (isSolved = val);
 
-const hideTables = () => tables
-    .forEach((table) => (table.style.display = 'none'));
+const hideTables = () =>
+  tables.forEach((table) => (table.style.display = "none"));
 
-const showTables = () => tables
-    .forEach((table) => (table.style.display = ''));
+const showTables = () => tables.forEach((table) => (table.style.display = ""));
 
 const firstLoadShow = () => {
-  toggleButton.style.display = '';
-  resetButton.style.display = '';
-  webcamElement.style.display = '';
+  toggleButton.style.display = "";
+  resetButton.style.display = "";
+  webcamElement.style.display = "";
   hideTables();
 };
 
 const resumeFlow = () => {
-  webcamElement.style.display = '';
-  toggleButton.innerText = '⏸️ Pause solver';
-  putResultString('Looking for a valid sudoku grid...');
+  webcamElement.style.display = "";
+  toggleButton.innerText = "⏸️ Pause solver";
+  putResultString("Looking for a valid sudoku grid...");
 };
 
 const pauseFlow = () => {
-  webcamElement.style.display = 'none';
-  toggleButton.innerText = '▶️ Resume solver';
-  putResultString('Solver paused. Click resume to continue.');
+  webcamElement.style.display = "none";
+  toggleButton.innerText = "▶️ Resume solver";
+  putResultString("Solver paused. Click resume to continue.");
 };
 
 const disablePauseButton = () => {
-  toggleButton.style.backgroundColor = 'gainsboro';
-  toggleButton.style.color = 'black';
-  toggleButton.style.borderBottomColor = '#c2c2c2';
+  toggleButton.style.backgroundColor = "gainsboro";
+  toggleButton.style.color = "black";
+  toggleButton.style.borderBottomColor = "#c2c2c2";
   toggleButton.disabled = true;
 };
 
 const resetPauseButton = () => {
-  toggleButton.style.backgroundColor = '';
-  toggleButton.style.color = '';
-  toggleButton.style.borderBottomColor = '';
+  toggleButton.style.backgroundColor = "";
+  toggleButton.style.color = "";
+  toggleButton.style.borderBottomColor = "";
   toggleButton.disabled = false;
 };
 
-const putResultString = (newResultString) => resultString
-    .innerHTML = newResultString;
+const putResultString = (newResultString) =>
+  (resultString.innerHTML = newResultString);
+
+const addResultString = (addString) => {
+  const currentTime = new Date();
+  console.log(
+    `${currentTime.getHours()} ${currentTime.getMinutes()} ${currentTime.getSeconds()} ${currentTime.getMilliseconds()} ${addString}`
+  );
+  resultString.innerHTML += `<br>${addString}`;
+};
 
 const foundSolution = () => {
   showTables();
   pauseFlow();
   disablePauseButton();
-  putResultString('Solution found!<br>Looks wrong? Reset to try again.');
+  putResultString("Solution found!<br>Looks wrong? Reset to try again.");
   runMainLoop = false;
   isSolved = true;
 };
 
-const hideOrDisplay = () => runMainLoop ? resumeFlow() : pauseFlow();
+const hideOrDisplay = () => (runMainLoop ? resumeFlow() : pauseFlow());
 
 const toggleOnOff = () => {
   runMainLoop = !runMainLoop;
@@ -85,7 +91,7 @@ const toggleOnOff = () => {
 const resetSolutionTable = () => {
   for (let row = 0; row < BOARD_LEN; row += 1) {
     for (let col = 0; col < BOARD_LEN; col += 1) {
-      solutionTable.rows[row].cells[col].innerHTML = '<span></span>';
+      solutionTable.rows[row].cells[col].innerHTML = "<span></span>";
     }
   }
 };
@@ -116,16 +122,16 @@ const showCroppedCells = async (croppedCells) => {
   const drawCellsArray = [];
   for (let row = 0; row < BOARD_LEN; row += 1) {
     for (let col = 0; col < BOARD_LEN; col += 1) {
-      document.getElementById(`${row}${col}`).style.display = '';
+      document.getElementById(`${row}${col}`).style.display = "";
       cell = croppedCells.slice(
-          [row * BOARD_LEN + col, 0, 0, 0],
-          [1, MNIST_LEN, MNIST_LEN, 1],
+        [row * BOARD_LEN + col, 0, 0, 0],
+        [1, MNIST_LEN, MNIST_LEN, 1]
       );
       drawCellsArray.push(
-          tf.browser.toPixels(
-              tf.reshape(cell, [MNIST_LEN, MNIST_LEN]),
-              document.getElementById(row + '' + col),
-          ),
+        tf.browser.toPixels(
+          tf.reshape(cell, [MNIST_LEN, MNIST_LEN]),
+          document.getElementById(row + "" + col)
+        )
       );
     }
   }
@@ -133,9 +139,9 @@ const showCroppedCells = async (croppedCells) => {
 };
 
 // Hacky fix to fit webcam image to the main body.
-webcamElement.style.width = '50rem';
-webcamElement.style.height = '50rem';
-toggleButton.addEventListener('click', toggleOnOff);
+webcamElement.style.width = "50rem";
+webcamElement.style.height = "50rem";
+toggleButton.addEventListener("click", toggleOnOff);
 
 module.exports = {
   disablePauseButton,
@@ -147,6 +153,7 @@ module.exports = {
   hideTables,
   pauseFlow,
   putResultString,
+  addResultString,
   putSolutionTable,
   resetPauseButton,
   resetSolutionTable,

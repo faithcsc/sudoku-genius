@@ -273,15 +273,21 @@
       document
         .querySelectorAll("table")
         .forEach((table) => (table.style.display = "none"));
+
+      function jsloaded(module_name) {
+        console.log(`${module_name} loaded`);
+        const resultString = document.querySelector("#resultString");
+        resultString.innerHTML += `<br>${module_name} loaded`;
+      }
     </script>
     <script
       src="static/tfjs.js"
-      onload="console.log('tfjs loaded')"
+      onload="jsloaded('tfjs');"
       type="text/javascript"
     ></script>
     <script
       src="static/opencv.js"
-      onload="console.log('opencv loaded')"
+      onload="jsloaded('opencv');"
       type="text/javascript"
     ></script>
     <script type="module" src="main.js"></script>

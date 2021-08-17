@@ -1,19 +1,19 @@
 /**
  * @jest-environment jsdom
-*/
+ */
 
 exports.developmentMode = false;
 exports.mainBodyWidthInREM = 54; // 54 = 50 base + 2 * 2 padding
-exports.baseFontSizeElement = document.querySelector('html');
-exports.toggleButton = document.getElementById('toggle');
-exports.resetButton = document.getElementById('reset');
-exports.resultString = document.getElementById('resultString');
-exports.solutionTable = document.getElementById('SudokuGridSolved');
-exports.tables = document.querySelectorAll('table');
-exports.debugTimings = document.querySelector('#debugTimings');
-exports.webcamElement = document.getElementById('webcam');
+exports.baseFontSizeElement = document.querySelector("html");
+exports.toggleButton = document.getElementById("toggle");
+exports.resetButton = document.getElementById("reset");
+exports.resultString = document.getElementById("resultString");
+exports.solutionTable = document.getElementById("SudokuGridSolved");
+exports.tables = document.querySelectorAll("table");
+exports.debugTimings = document.querySelector("#debugTimings");
+exports.webcamElement = document.getElementById("webcam");
 exports.webcamConfig = {
-  facingMode: 'environment',
+  facingMode: "environment",
 };
 exports.WEBCAM_FRAME_LENGTH = exports.webcamElement.height;
 
@@ -31,7 +31,7 @@ exports.TOTAL_BOARD_HISTORY = 30;
 
 // exports.MODEL_URL =
 //   'https://s1.seedboxws.com/ddl/usr00037/mnist-alt/model.json';
-exports.MODEL_URL = '../model/model.json';
+exports.MODEL_URL = "../model/model.json";
 
 exports.isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 exports.isiOSChrome = /crios/i.test(navigator.userAgent);

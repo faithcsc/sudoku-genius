@@ -4,13 +4,17 @@ const {
   NUM_SUDOKU_CELLS,
   MNIST_LEN,
   MODEL_URL,
-} = require('./constants');
+} = require("./constants");
+const { addResultString } = require("./ui");
 
 let MODEL = 0;
 
 const load = async () => {
+  console.log("Loading model");
   if (MODEL === 0) {
+    addResultString("<br>Model loading");
     MODEL = await tf.loadLayersModel(MODEL_URL);
+    addResultString("<br>Model loaded");
   }
 };
 
@@ -18,10 +22,10 @@ const testWithZeros = async () => {
   if (MODEL !== 0) {
     let predsZeros;
     predsZeros = doPrediction(
-        tf.zeros([NUM_SUDOKU_CELLS, MNIST_LEN, MNIST_LEN, 1]),
+      tf.zeros([NUM_SUDOKU_CELLS, MNIST_LEN, MNIST_LEN, 1])
     );
     predsZeros = await predsZeros.dataSync();
-    console.log('Zero predictions: ' + predsZeros[0]);
+    console.log("Zero predictions: " + predsZeros[0]);
   }
 };
 
@@ -52,4 +56,4 @@ const convertPredictions = async (preds) => {
   return newPreds;
 };
 
-module.exports = {load, testWithZeros, predictSudokuGrid};
+module.exports = { load, testWithZeros, predictSudokuGrid };
