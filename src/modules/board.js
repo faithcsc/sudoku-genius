@@ -1,6 +1,7 @@
-const {TOTAL_BOARD_HISTORY, BOARD_LEN} = require('./constants');
+const { TOTAL_BOARD_HISTORY, BOARD_LEN } = require("./constants");
 
-let BOARD_STATE_HISTORY; let BOARD_INDEX;
+let BOARD_STATE_HISTORY;
+let BOARD_INDEX;
 
 const updateHistory = (newBoard) => {
   if (newBoard.length == BOARD_LEN && newBoard[0].length == BOARD_LEN) {
@@ -10,8 +11,8 @@ const updateHistory = (newBoard) => {
     console.log(`Board index: ${BOARD_INDEX}`);
   } else {
     console.log(
-        `newBoard has wrong size:`,
-        `${newBoard.length},${newBoard[0].length}`,
+      `newBoard has wrong size:`,
+      `${newBoard.length},${newBoard[0].length}`
     );
   }
 };
@@ -27,9 +28,9 @@ const getMode = (array) => {
     return mode;
   }, {});
 
-  const mostCommon = Object
-      .keys(modeMap)
-      .reduce((a, b) => modeMap[a] > modeMap[b] ? a : b);
+  const mostCommon = Object.keys(modeMap).reduce((a, b) =>
+    modeMap[a] > modeMap[b] ? a : b
+  );
 
   return mostCommon;
 };
@@ -56,4 +57,4 @@ const reset = () => {
   BOARD_INDEX = 0;
 };
 
-module.exports = {reset, getMostCommon, updateHistory};
+module.exports = { reset, getMostCommon, updateHistory };

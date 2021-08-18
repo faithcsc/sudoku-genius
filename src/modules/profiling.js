@@ -1,7 +1,9 @@
-const {doProfiling, debugTimings, developmentMode} = require('./constants');
+const { doProfiling, debugTimings, pageLoadTime } = require("./constants");
 
-let startLoadPage; let timeToLoadPage;
-let startSolvePuzzle; let timeToSolvePuzzle;
+let startLoadPage;
+let timeToLoadPage;
+let startSolvePuzzle;
+let timeToSolvePuzzle;
 
 const loadPageStart = () => {
   startLoadPage = new Date().valueOf();
@@ -12,27 +14,27 @@ const loadPageStart = () => {
 };
 
 const loadPageEnd = () => {
-  timeToLoadPage = (Date.now() - parseFloat(debugTimings.innerText)) / 1000.0;
+  timeToLoadPage = (Date.now() - parseFloat(pageLoadTime.innerText)) / 1000.0;
   console.log(`Load page time: ${timeToLoadPage}`);
-  if (developmentMode) {
-    debugTimings.innerText = `Load: ${timeToLoadPage}s `;
-    debugTimings.style.display = '';
-  }
+  debugTimings.innerText += `Load: ${timeToLoadPage}s `;
   if (doProfiling && window.console && window.console.profile) {
     console.log(`Done: Load page ${startLoadPage}`);
     console.profileEnd(`Load page ${startLoadPage}`);
   }
 };
 
-const solvePuzzleStart = () => startSolvePuzzle = Date.now();
+const solvePuzzleStart = () => (startSolvePuzzle = Date.now());
 
 const solvePuzzleEnd = () => {
   timeToSolvePuzzle = (Date.now() - startSolvePuzzle) / 1000.0;
   console.log(`Time to solve: ${timeToSolvePuzzle}`);
-  if (developmentMode) {
-    debugTimings.innerHTML += `<br>Solve: ${timeToSolvePuzzle}s`;
-  }
+  debugTimings.innerHTML += `<br>Solve: ${timeToSolvePuzzle}s`;
   return timeToSolvePuzzle;
 };
 
-module.exports = {loadPageStart, loadPageEnd, solvePuzzleStart, solvePuzzleEnd};
+module.exports = {
+  loadPageStart,
+  loadPageEnd,
+  solvePuzzleStart,
+  solvePuzzleEnd,
+};

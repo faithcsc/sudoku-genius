@@ -1,4 +1,3 @@
-
 const BOARD_LEN = 9;
 let currentPuzzle;
 
@@ -10,7 +9,6 @@ const solve = (board) => {
   }
   return -1;
 };
-
 
 const solver = (data) => {
   let validDigit;
@@ -32,7 +30,6 @@ const solver = (data) => {
   }
   return true;
 };
-
 
 const isValid = (board, row, col, k) => {
   for (let i = 0; i < BOARD_LEN; i += 1) {
@@ -56,7 +53,7 @@ const isValidSolution = (board) => {
 
 const isValidPuzzle = (puzzle) => {
   const squareRowcolsRanges = [0, 3, 6];
-  const isValidCellValue = (i) => (i >= 0 && i <= 9);
+  const isValidCellValue = (i) => i >= 0 && i <= 9;
   const sanityCheck = () => {
     const flattenedBoard = [].concat(...puzzle);
     const countNonZero = flattenedBoard.filter((i) => i !== 0).length;
@@ -133,4 +130,4 @@ const isValidPuzzle = (puzzle) => {
   return true;
 };
 
-module.exports = {solve, isValidPuzzle};
+module.exports = { solve, isValidPuzzle };

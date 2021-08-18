@@ -4,7 +4,6 @@ const {
   webcamConfig,
   resetButton,
   debugTimings,
-  developmentMode,
   RESET_FRAMES,
   DEFAULT_COUNTER_VALUE,
 } = require("./modules/constants");
@@ -15,13 +14,6 @@ const board = require("./modules/board");
 const { solve, isValidPuzzle } = require("./modules/solver");
 const UI = require("./modules/ui");
 const check = require("./modules/check");
-
-// for webpack to copy to dist/
-// const mainCSS = require('./static/style.css');
-// const mainHTML = require('./index.html');
-// const tf = require('./static/tfjs');
-// const cv = require('./static/pencv');
-// const ico = require('./static/favicon.ico');
 
 /**
  * Resets the solver.
@@ -59,22 +51,25 @@ async function main() {
   let webcam;
 
   console.dir(check);
-  UI.addResultString("Load page start");
+  UI.addDebugInfo("Load page start");
   profiling.loadPageStart();
-  UI.addResultString("Check HTTPS");
+  UI.addDebugInfo("Check HTTPS");
   check.checkHTTPS();
-  UI.addResultString("Change layout if mobile");
+  UI.addDebugInfo("Change layout if mobile");
   check.changeLayoutIfMobile();
 
+  if (check.isiOSChrome) {
+    const errorMessage = check.getUserInstruction();
+    UI.putResultString(errorMessage);
+    UI.hideDebug();
+    return;
+  }
+
   // Webcam
-  // webcam = await loadWebcam();
-  // UI.firstLoadShow();
   try {
-    UI.addResultString("Checking webcam");
-
+    UI.addDebugInfo("Checking webcam");
     webcam = await tf.data.webcam(webcamElement, webcamConfig);
-
-    UI.addResultString("firstLoadShow");
+    UI.addDebugInfo("firstLoadShow");
     UI.firstLoadShow();
   } catch (error) {
     let errorMessage;
@@ -84,20 +79,20 @@ async function main() {
     return;
   }
 
-  UI.addResultString("Loading model");
+  UI.addDebugInfo("Loading model");
   await model.load();
 
-  UI.addResultString("Testing with zeros");
+  UI.addDebugInfo("Testing with zeros");
   await model.testWithZeros();
 
-  UI.addResultString("Reset");
+  UI.addDebugInfo("Reset");
   reset();
-  UI.addResultString("Hide or display");
+  UI.addDebugInfo("Hide or display");
   UI.hideOrDisplay();
 
-  UI.addResultString("loadPageEnd");
+  UI.addDebugInfo("loadPageEnd");
   profiling.loadPageEnd();
-  UI.addResultString("solvePuzzleStart");
+  UI.addDebugInfo("solvePuzzleStart");
   profiling.solvePuzzleStart();
 
   while (true) {
@@ -115,6 +110,7 @@ async function main() {
         commonBoardValid = isValidPuzzle(commonBoard);
         console.log(`commonBoard: ${commonBoardValid}`);
         console.log(`recentBoard: ${commonBoardValid}`);
+        console.log(`debugTimings: ${debugTimings.innerHTML}`);
 
         if (commonBoardValid || recentBoardValid) {
           solution = recentBoardValid ? recentBoard : commonBoard;
@@ -125,13 +121,11 @@ async function main() {
             UI.putSolutionTable(puzzleOriginal, solution);
             UI.foundSolution();
             const timeToSolvePuzzle = profiling.solvePuzzleEnd();
-            if (developmentMode) {
-              debugTimings.innerHTML += ` Frames: ${totalCounter}`;
-              debugTimings.innerHTML += ` Per: ${(
-                timeToSolvePuzzle / totalCounter
-              ).toFixed(3)} s`;
-            }
-            // reset(); // TODO delete this
+
+            debugTimings.innerHTML += ` Frames: ${totalCounter}`;
+            debugTimings.innerHTML += ` Per: ${(
+              timeToSolvePuzzle / totalCounter
+            ).toFixed(3)} s`;
           }
         }
 

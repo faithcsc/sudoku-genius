@@ -5,16 +5,15 @@ const {
   MNIST_LEN,
   MODEL_URL,
 } = require("./constants");
-const { addResultString } = require("./ui");
+const UI = require("./ui");
 
 let MODEL = 0;
 
 const load = async () => {
-  console.log("Loading model");
   if (MODEL === 0) {
-    addResultString("<br>Model loading");
+    UI.addDebugInfo("Model loading");
     MODEL = await tf.loadLayersModel(MODEL_URL);
-    addResultString("<br>Model loaded");
+    UI.addDebugInfo("Model loaded");
   }
 };
 

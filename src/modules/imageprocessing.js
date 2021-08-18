@@ -3,25 +3,25 @@ const {
   MNIST_LEN,
   BOARD_LEN,
   NUM_SUDOKU_CELLS,
-} = require('./constants');
+} = require("./constants");
 
 const colorToGray = (image) => image.mean(2).toInt();
 
 const invertImage = (image) => image.mul(-1).add(255).toInt();
 
-const cvToTensor = (imageCv) => tf
-    .tensor(imageCv.data, [imageCv.rows, imageCv.cols]);
+const cvToTensor = (imageCv) =>
+  tf.tensor(imageCv.data, [imageCv.rows, imageCv.cols]);
 
-const getDistance = (p1, p2) => Math.sqrt(
-    Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2),
-);
+const getDistance = (p1, p2) =>
+  Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
 
 const getRandomNumber = (min, max) => Math.random() * max + min;
 
 const getEmptyImage = () => tf.zeros([MNIST_LEN, MNIST_LEN]);
 
 const tensorToCv = async (imageTensor) => {
-  let rows; let cols;
+  let rows;
+  let cols;
   if (imageTensor.shape.length == 3) {
     imageTensor = colorToGray(imageTensor);
   }
@@ -71,14 +71,14 @@ const addBorderToImage = (imageCv) => {
   const addRight = MNIST_LEN - originalWidth - addLeft;
 
   cv.copyMakeBorder(
-      src,
-      dst,
-      addTop,
-      addBottom,
-      addLeft,
-      addRight,
-      cv.BORDER_CONSTANT,
-      backgroundColor,
+    src,
+    dst,
+    addTop,
+    addBottom,
+    addLeft,
+    addRight,
+    cv.BORDER_CONSTANT,
+    backgroundColor
   );
   src.delete();
   return dst;
@@ -103,11 +103,10 @@ const rescaleImage = async (image) => {
   imageData = [...imageData];
   const percentiles = getPercentiles(imageData);
   imageData = imageData.map((item, index) =>
-    Math.max(0, item - percentiles[3]),
+    Math.max(0, item - percentiles[3])
   );
-  imageData = imageData.map(
-      (item, index) =>
-        Math.floor(Math.min(255, (item / percentiles[17]) * 255.0)),
+  imageData = imageData.map((item, index) =>
+    Math.floor(Math.min(255, (item / percentiles[17]) * 255.0))
   );
   image = tf.tensor(imageData);
   image = tf.reshape(image, originalImageShape);
@@ -115,7 +114,8 @@ const rescaleImage = async (image) => {
 };
 
 const cropBorder = (image, cropFraction) => {
-  let height; let width;
+  let height;
+  let width;
   if (image.shape.length == 4) {
     height = image.shape[1];
     width = image.shape[2];
@@ -132,13 +132,13 @@ const cropBorder = (image, cropFraction) => {
     width = image.shape[1];
   }
   return cropSingleImage(
-      image,
-      cropFraction,
-      cropFraction,
-      1 - cropFraction,
-      1 - cropFraction,
-      height,
-      width,
+    image,
+    cropFraction,
+    cropFraction,
+    1 - cropFraction,
+    1 - cropFraction,
+    height,
+    width
   );
 };
 
@@ -154,10 +154,10 @@ const cropSingleImage = (image, y1, x1, y2, x2, height, width) => {
     ]);
   }
   return tf.image.cropAndResize(
-      image,
-      [[y1, x1, y2, x2]],
-      [0],
-      [height, width],
+    image,
+    [[y1, x1, y2, x2]],
+    [0],
+    [height, width]
   );
 };
 
@@ -176,7 +176,11 @@ const processCell = async (cellImage) => {
 };
 
 const cropCells = async (img) => {
-  let y1; let x1; let y2; let x2; let cell;
+  let y1;
+  let x1;
+  let y2;
+  let x2;
+  let cell;
   const cellHeight = Math.floor(img.shape[0] / BOARD_LEN);
   const cellWidth = Math.floor(img.shape[1] / BOARD_LEN);
   const height = img.shape[0];
@@ -289,27 +293,27 @@ const getBiggestRectangle = async (image) => {
 
   // Get contours from the current image
   cv.adaptiveThreshold(
-      src,
-      src,
-      255,
-      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-      cv.THRESH_BINARY,
-      9,
-      15,
+    src,
+    src,
+    255,
+    cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv.THRESH_BINARY,
+    9,
+    15
   );
   const contours = new cv.MatVector();
   const hierarchy = new cv.Mat();
   cv.findContours(
-      src,
-      contours,
-      hierarchy,
-      cv.RETR_CCOMP,
-      cv.CHAIN_APPROX_SIMPLE,
+    src,
+    contours,
+    hierarchy,
+    cv.RETR_CCOMP,
+    cv.CHAIN_APPROX_SIMPLE
   );
   const cnt = contours.get(0);
 
   // If there are contours, calculate metadata
-  if (typeof cnt !== 'undefined') {
+  if (typeof cnt !== "undefined") {
     let biggest;
 
     // Calculate the area of each contour and store it in a dictionary
@@ -328,8 +332,7 @@ const getBiggestRectangle = async (image) => {
     contoursAndAreas.sort((a, b) => b.area - a.area);
 
     biggest = contoursAndAreas[0];
-    if (contoursAndAreas.length >= 2 &&
-        contoursAndAreas[1].area > 1600) {
+    if (contoursAndAreas.length >= 2 && contoursAndAreas[1].area > 1600) {
       biggest = contoursAndAreas[1];
     }
 
@@ -386,27 +389,27 @@ const cropUsingContours = async (image) => {
   const imageCvClone = imageCv.clone();
 
   cv.adaptiveThreshold(
-      imageCv,
-      imageCv,
-      255,
-      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-      cv.THRESH_BINARY,
-      3,
-      15,
+    imageCv,
+    imageCv,
+    255,
+    cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv.THRESH_BINARY,
+    3,
+    15
   );
   const contours = new cv.MatVector();
   const hierarchy = new cv.Mat();
   cv.findContours(
-      imageCv,
-      contours,
-      hierarchy,
-      cv.RETR_CCOMP,
-      cv.CHAIN_APPROX_SIMPLE,
+    imageCv,
+    contours,
+    hierarchy,
+    cv.RETR_CCOMP,
+    cv.CHAIN_APPROX_SIMPLE
   );
   const cnt = contours.get(0);
 
   // There are contours, else return an empty image
-  if (typeof cnt !== 'undefined') {
+  if (typeof cnt !== "undefined") {
     const contoursAndAreas = [];
     for (let i = 0; i < contours.size(); i += 1) {
       const currentContourArea = cv.contourArea(contours.get(i), false);
@@ -449,13 +452,13 @@ const warpImage = async (image, originalShape, targetShape) => {
   const dsize = new cv.Size(src.rows, src.cols);
   const M = cv.getPerspectiveTransform(originalShape, targetShape);
   cv.warpPerspective(
-      src,
-      dst,
-      M,
-      dsize,
-      cv.INTER_LINEAR,
-      cv.BORDER_CONSTANT,
-      new cv.Scalar(),
+    src,
+    dst,
+    M,
+    dsize,
+    cv.INTER_LINEAR,
+    cv.BORDER_CONSTANT,
+    new cv.Scalar()
   );
   src.delete();
   M.delete();
@@ -464,4 +467,4 @@ const warpImage = async (image, originalShape, targetShape) => {
   return dst;
 };
 
-module.exports = {cropCells, getBiggestRectangle};
+module.exports = { cropCells, getBiggestRectangle };

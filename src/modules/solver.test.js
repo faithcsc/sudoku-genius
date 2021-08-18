@@ -1,5 +1,4 @@
-
-const {solve, isValidPuzzle} = require('./solver');
+const { solve, isValidPuzzle } = require("./solver");
 
 const VALID_PUZZLE = [
   [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -61,7 +60,7 @@ const CORRECT_SOLUTION = [
   [3, 4, 5, 2, 8, 6, 1, 7, 9],
 ];
 
-test('Valid puzzle is valid', () => {
+test("Valid puzzle is valid", () => {
   const validPuzzleIsValid = isValidPuzzle(VALID_PUZZLE);
   expect(validPuzzleIsValid).toEqual(true);
 });
@@ -70,7 +69,7 @@ test('Valid puzzle is valid', () => {
 // - duplicate digit in row
 // - duplicate digit in col
 // - duplicate digit in square
-test('Invalid puzzle is invalid', () => {
+test("Invalid puzzle is invalid", () => {
   let invalidPuzzleIsInvalid;
 
   invalidPuzzleIsInvalid = isValidPuzzle(INVALID_PUZZLE_DUPLICATE_IN_ROW);
@@ -84,7 +83,7 @@ test('Invalid puzzle is invalid', () => {
 });
 
 // Test that it returns the correct solution for the puzzle
-test('Correct solution for puzzle', () => {
+test("Correct solution for puzzle", () => {
   const solution = solve(VALID_PUZZLE);
   expect(solution).toEqual(CORRECT_SOLUTION);
 });

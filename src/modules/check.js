@@ -19,7 +19,7 @@ const getErrorMessage = () => {
 
 const getUserInstruction = () => {
   if (isiOSChrome) {
-    return "Open this page in Safari.<br>";
+    return "This website doesn't work on iOS + Chrome -- open this page in Safari instead.<br>";
   }
   return "Refresh page and allow camera access.<br>";
 };
@@ -31,9 +31,10 @@ isChrome: ${isChrome}<br>\
 isAndroid: ${isAndroid}<br>\
 isMobile: ${isMobile}<br>\
 height: ${height}<br>\
-width: ${width}<br>`;
+width: ${width}<br>\
+error: ${error}<br>`;
 
-UI.addResultString(`${getDebugString("")}`);
+UI.addDebugInfo(`${getDebugString("")}`);
 
 const checkHTTPS = () => {
   // Make sure webpage is https:// to allow webcam access
@@ -54,4 +55,10 @@ const changeLayoutIfMobile = () => {
   }
 };
 
-module.exports = { getErrorMessage, checkHTTPS, changeLayoutIfMobile };
+module.exports = {
+  getErrorMessage,
+  getUserInstruction,
+  checkHTTPS,
+  changeLayoutIfMobile,
+  isiOSChrome,
+};

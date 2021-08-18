@@ -4,6 +4,7 @@ const {
   toggleButton,
   resetButton,
   resultString,
+  debugInfo,
   solutionTable,
   tables,
   MNIST_LEN,
@@ -12,6 +13,7 @@ const {
 
 let runMainLoop = true;
 let isSolved = false;
+let prevRunTime = Date.now();
 
 // MODIFY HTML
 
@@ -64,12 +66,27 @@ const resetPauseButton = () => {
 const putResultString = (newResultString) =>
   (resultString.innerHTML = newResultString);
 
-const addResultString = (addString) => {
+const addDebugInfo = (addString) => {
   const currentTime = new Date();
-  console.log(
-    `${currentTime.getHours()} ${currentTime.getMinutes()} ${currentTime.getSeconds()} ${currentTime.getMilliseconds()} ${addString}`
-  );
-  resultString.innerHTML += `<br>${addString}`;
+  const timeElapsed = currentTime - prevRunTime;
+  prevRunTime = Date.now();
+  const debugString = `${currentTime.getHours()} ${currentTime.getMinutes()} ${currentTime.getSeconds()} ${currentTime.getMilliseconds()} (+${timeElapsed}) ${addString}`;
+  console.log(debugString);
+  debugInfo.innerHTML += `<br>${debugString}`;
+};
+
+const toggleDebug = () => {
+  debug.style.display =
+    debug.style.display === "block" ? hideDebug() : showDebug();
+};
+
+const hideDebug = () => {
+  debug.style.display = "none";
+  debugButton.innerText = "Show debug";
+};
+const showDebug = () => {
+  debug.style.display = "block";
+  debugButton.innerText = "Hide debug";
 };
 
 const foundSolution = () => {
@@ -153,7 +170,10 @@ module.exports = {
   hideTables,
   pauseFlow,
   putResultString,
-  addResultString,
+  addDebugInfo,
+  toggleDebug,
+  showDebug,
+  hideDebug,
   putSolutionTable,
   resetPauseButton,
   resetSolutionTable,

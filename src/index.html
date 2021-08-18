@@ -1,10 +1,10 @@
 <html>
-  <title>Sudoku Solver</title>
+  <title>Sudoku Genius</title>
 
   <body>
     <head>
       <meta charset="UTF-8" />
-      <title>Sudoku Solver</title>
+      <title>Sudoku Genius</title>
       <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
       <link
         href="https://fonts.googleapis.com/css?family=Pacifico"
@@ -20,7 +20,7 @@
     </head>
 
     <div class="sudokusolver">
-      <h1>Sudoku Solver 5000</h1>
+      <h1>Sudoku Genius</h1>
       <button id="toggle">⏸️ Pause solver</button>
       <button id="reset">🔄 Reset solver</button>
       <div><span id="resultString">Loading...</span></div>
@@ -251,43 +251,81 @@
       <span class="footerText"
         >The tool works locally in your browser, no data is uploaded.</span
       >
-      <br />
-      <span class="footerText" id="debugTimings"></span>
       <span class="footerText">Faith Chia © 2021</span>
+      <br />
+      <div style="text-align: center">
+        <a href="#" onclick="toggleDebug();" id="debugButton"></a>
+      </div>
+
+      <div id="debug">
+        <div>
+          <hr />
+          Debug info
+          <p id="debugInfo" />
+        </div>
+
+        <div>
+          <hr />
+          Debug timings
+          <p id="debugTimings" />
+        </div>
+
+        <div>
+          <hr />
+          Page load time
+          <p id="pageLoadTime" display="none" />
+        </div>
+      </div>
     </div>
     <script>
-      // Redirect to https
-      if (
-        location.protocol !== "https:" &&
-        location.hostname.indexOf("faithchia.me") !== -1
-      ) {
-        location.replace(
-          `https:${location.href.substring(location.protocol.length)}`
-        );
-      }
-      document.querySelector("#debugTimings").innerText = Date.now();
-      document.querySelector("#debugTimings").style.display = "none";
-      document.getElementById("toggle").style.display = "none";
-      document.getElementById("reset").style.display = "none";
-      document.getElementById("webcam").style.display = "none";
-      document
-        .querySelectorAll("table")
-        .forEach((table) => (table.style.display = "none"));
+      const resultString = document.getElementById("resultString");
+      const isiOSChrome = /crios/i.test(navigator.userAgent);
+      const toggleButton = document.getElementById("toggle");
+      const resetButton = document.getElementById("reset");
+      const debugButton = document.getElementById("debugButton");
+      const debugInfo = document.getElementById("debugInfo");
+      const debug = document.getElementById("debug");
+      const tables = document.querySelectorAll("table");
+      const pageLoadTime = document.getElementById("pageLoadTime");
+      pageLoadTime.innerText = Date.now();
 
-      function jsloaded(module_name) {
-        console.log(`${module_name} loaded`);
-        const resultString = document.querySelector("#resultString");
-        resultString.innerHTML += `<br>${module_name} loaded`;
+      let prevRunTime = Date.now();
+      const addDebugInfo = (addString) => {
+        const currentTime = new Date();
+        const timeElapsed = currentTime - prevRunTime;
+        prevRunTime = Date.now();
+        const debugString = `${currentTime.getHours()} ${currentTime.getMinutes()} ${currentTime.getSeconds()} ${currentTime.getMilliseconds()} (+${timeElapsed}) ${addString}`;
+        console.log(debugString);
+        debugInfo.innerHTML += `<br>${debugString}`;
+      };
+
+      // Hide all UI elements while resources are loading
+      toggleButton.style.display = "none";
+      resetButton.style.display = "none";
+      webcam.style.display = "none";
+      tables.forEach((table) => {
+        table.style.display = "none";
+        console.log("table none");
+      });
+
+      // Hide debug info by default
+      debug.style.display = "block";
+      function toggleDebug() {
+        debug.style.display =
+          debug.style.display === "block" ? "none" : "block";
+        debugButton.innerText =
+          debug.style.display === "block" ? "Hide debug" : "Show debug";
       }
+      toggleDebug();
     </script>
     <script
       src="static/tfjs.js"
-      onload="jsloaded('tfjs');"
+      onload="addDebugInfo('tfjs loaded');"
       type="text/javascript"
     ></script>
     <script
       src="static/opencv.js"
-      onload="jsloaded('opencv');"
+      onload="addDebugInfo('opencv loaded');"
       type="text/javascript"
     ></script>
     <script type="module" src="main.js"></script>
